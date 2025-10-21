@@ -1,11 +1,10 @@
+// root build.gradle.kts
 plugins {
     java
-    id("org.springframework.boot") version "3.5.6"
-    id("io.spring.dependency-management") version "1.1.7"
+    id("org.springframework.boot") apply false
+    id("io.spring.dependency-management")
 }
 
-group = "io.dodn"
-version = "0.0.1-SNAPSHOT"
 description = "commerce"
 
 java {
@@ -14,16 +13,42 @@ java {
     }
 }
 
-repositories {
-    mavenCentral()
+// allproject settings
+allprojects {
+    group = "${property("projectGroup")}"
+    version = "${property("applicationVersion")}"
+
+    repositories {
+        mavenCentral()
+    }
 }
 
-dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
+// subproject settings
+subprojects {
+    apply(plugin = "java")
+    apply(plugin = "org.springframework.boot")
+    apply(plugin = "io.spring.dependency-management")
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudDependenciesVersion")}")
+        }
+    }
+
+    dependencies {
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    }
+
+    tasks.getByName("bootJar") {
+        enabled = false
+    }
+
+    tasks.getByName("jar") {
+        enabled = true
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
 }
