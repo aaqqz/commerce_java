@@ -5,9 +5,9 @@ server.port: 8081
 spring:
   config:
     import:
-#      - monitoring.yml
-      - logging.yml
       - db-core.yml
+      - logging.yml
+      - monitoring.yml
   web.resources.add-mappings: false
 
 server:

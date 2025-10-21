@@ -2,8 +2,8 @@ rootProject.name = "commerce"
 
 // add sub-module
 include(
-    "core:core-enum",
     "core:core-api",
+    "core:core-enum",
     "storage:db-core",
     "support:logging",
     "support:monitoring",
