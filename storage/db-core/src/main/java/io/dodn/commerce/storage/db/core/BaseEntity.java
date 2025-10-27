@@ -1,4 +1,4 @@
-package io.dodn.commerce.storage.db.core.config;
+package io.dodn.commerce.storage.db.core;
 
 import io.dodn.commerce.core.enums.EntityStatus;
 import jakarta.persistence.*;
