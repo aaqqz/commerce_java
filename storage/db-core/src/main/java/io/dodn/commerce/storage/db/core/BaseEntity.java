@@ -17,7 +17,7 @@ public abstract class BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR")
+    @Column(columnDefinition = "VARCHAR(50)")
     private EntityStatus status = EntityStatus.ACTIVE;
 
     @CreationTimestamp
@@ -42,10 +42,3 @@ public abstract class BaseEntity {
         return this.status == EntityStatus.DELETED;
     }
 }
-//INSERT INTO EXAMPLE (
-//        name, description, status, created_at, updated_at
-//        ) VALUES ('상품 이름_01','상품 설명_01','ACTIVE',NOW(),NOW()),
-//        ('상품 이름_02','상품 설명_02','ACTIVE',NOW(),NOW()),
-//        ('상품 이름_03','상품 설명_03','ACTIVE',NOW(),NOW()),
-//        ('상품 이름_04','상품 설명_04','ACTIVE',NOW(),NOW()),
-//        ('상품 이름_05','상품 설명_05','ACTIVE',NOW(),NOW());
