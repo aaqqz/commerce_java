@@ -1,6 +1,6 @@
 package io.dodn.commerce.core.api.controller.v1.response;
 
-import io.dodn.commerce.core.domain.Product;
+import io.dodn.commerce.core.domain.product.Product;
 
 import java.math.BigDecimal;
 import java.util.List;

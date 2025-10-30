@@ -1,11 +1,14 @@
-package io.dodn.commerce.core.domain;
+package io.dodn.commerce.core.domain.product;
 
 import io.dodn.commerce.core.enums.EntityStatus;
 import io.dodn.commerce.core.support.OffsetLimit;
 import io.dodn.commerce.core.support.Page;
-import io.dodn.commerce.storage.db.core.ProductCategoryEntity;
-import io.dodn.commerce.storage.db.core.ProductCategoryRepository;
-import io.dodn.commerce.storage.db.core.ProductRepository;
+import io.dodn.commerce.core.support.error.CoreException;
+import io.dodn.commerce.core.support.error.ErrorType;
+import io.dodn.commerce.storage.db.core.product.ProductCategoryEntity;
+import io.dodn.commerce.storage.db.core.product.ProductCategoryRepository;
+import io.dodn.commerce.storage.db.core.product.ProductEntity;
+import io.dodn.commerce.storage.db.core.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -29,5 +32,12 @@ public class ProductFinder {
                 .toList();
 
         return new Page<>(products, productCategoryEntities.hasNext());
+    }
+
+    public Product find(Long productId) {
+        return productRepository.findById(productId)
+                .filter(ProductEntity::isActive)
+                .map(Product::of)
+                .orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND_DATA));
     }
 }

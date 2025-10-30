@@ -1,5 +1,6 @@
-package io.dodn.commerce.storage.db.core;
+package io.dodn.commerce.storage.db.core.product;
 
+import io.dodn.commerce.storage.db.core.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;

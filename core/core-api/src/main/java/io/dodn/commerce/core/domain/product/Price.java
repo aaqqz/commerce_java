@@ -1,6 +1,6 @@
-package io.dodn.commerce.core.domain;
+package io.dodn.commerce.core.domain.product;
 
-import io.dodn.commerce.storage.db.core.ProductEntity;
+import io.dodn.commerce.storage.db.core.product.ProductEntity;
 
 import java.math.BigDecimal;
 

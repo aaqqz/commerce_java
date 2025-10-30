@@ -1,4 +1,4 @@
-package io.dodn.commerce.core.domain;
+package io.dodn.commerce.core.domain.product;
 
 import io.dodn.commerce.core.support.OffsetLimit;
 import io.dodn.commerce.core.support.Page;
@@ -13,5 +13,9 @@ public class ProductService {
 
     public Page<Product> findProducts(Long categoryId, OffsetLimit offsetLimit) {
         return productFinder.findByCategory(categoryId, offsetLimit);
+    }
+
+    public Product findProduct(Long productId) {
+        return productFinder.find(productId);
     }
 }
