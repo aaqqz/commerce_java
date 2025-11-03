@@ -1,0 +1,35 @@
+package io.dodn.commerce.core.api.controller.v1.request;
+
+import io.dodn.commerce.core.domain.review.ReviewContent;
+import io.dodn.commerce.core.domain.review.ReviewTarget;
+import io.dodn.commerce.core.enums.ReviewTargetType;
+import io.dodn.commerce.core.support.error.CoreException;
+import io.dodn.commerce.core.support.error.ErrorType;
+
+import java.math.BigDecimal;
+
+public record AddReviewRequest(
+        Long userId,
+        ReviewTargetType targetType,
+        Long targetId,
+        BigDecimal rate,
+        String content
+) {
+
+    public ReviewTarget toTarget() {
+        return ReviewTarget.of(targetType, targetId);
+    }
+
+    public ReviewContent toContent() {
+        if (rate.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new CoreException(ErrorType.INVALID_REQUEST);
+        }
+        if (rate.compareTo(BigDecimal.valueOf(5.0)) > 0) {
+            throw new CoreException(ErrorType.INVALID_REQUEST);
+        }
+        if (content.isEmpty()) {
+            throw new  CoreException(ErrorType.INVALID_REQUEST);
+        }
+        return new ReviewContent(rate, content);
+    }
+}

@@ -10,6 +10,7 @@ import io.dodn.commerce.storage.db.core.product.ProductCategoryRepository;
 import io.dodn.commerce.storage.db.core.product.ProductEntity;
 import io.dodn.commerce.storage.db.core.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,8 +23,8 @@ public class ProductFinder {
     private final ProductCategoryRepository productCategoryRepository;
 
     public Page<Product> findByCategory(Long categoryId, OffsetLimit offsetLimit) {
-        var productCategoryEntities = productCategoryRepository.findByCategoryIdAndStatus(categoryId, EntityStatus.ACTIVE, offsetLimit.toPageable());
-        List<Long> productIds = productCategoryEntities.stream()
+        Slice<ProductCategoryEntity> productCategoryEntitySlice = productCategoryRepository.findByCategoryIdAndStatus(categoryId, EntityStatus.ACTIVE, offsetLimit.toPageable());
+        List<Long> productIds = productCategoryEntitySlice.stream()
                 .map(ProductCategoryEntity::getProductId)
                 .toList();
 
@@ -31,7 +32,7 @@ public class ProductFinder {
                 .map(Product::of)
                 .toList();
 
-        return new Page<>(products, productCategoryEntities.hasNext());
+        return new Page<>(products, productCategoryEntitySlice.hasNext());
     }
 
     public Product find(Long productId) {

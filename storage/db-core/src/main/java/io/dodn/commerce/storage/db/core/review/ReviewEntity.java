@@ -35,6 +35,15 @@ public class ReviewEntity extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    public ReviewEntity(Long userId, String reviewKey, ReviewTargetType targetType, Long targetId, BigDecimal rate, String content) {
+        this.userId = userId;
+        this.reviewKey = reviewKey;
+        this.targetType = targetType;
+        this.targetId = targetId;
+        this.rate = rate;
+        this.content = content;
+    }
+
     protected void editRate(BigDecimal rate) {
         this.rate = rate;
     }
