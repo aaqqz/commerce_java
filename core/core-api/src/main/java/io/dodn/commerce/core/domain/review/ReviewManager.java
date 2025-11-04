@@ -32,10 +32,10 @@ public class ReviewManager {
 
     @Transactional
     public Long update(User user, Long reviewId, ReviewContent content) {
-        ReviewEntity reviewEntity = reviewRepository.findByIdAndUserId(reviewId, user.id())
+        ReviewEntity found = reviewRepository.findByIdAndUserId(reviewId, user.id())
                 .orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND_DATA));
-        reviewEntity.updateContent(content.rate(), content.content());
+        found.updateContent(content.rate(), content.content());
 
-        return reviewEntity.getId();
+        return found.getId();
     }
 }
