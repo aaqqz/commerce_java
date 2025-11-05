@@ -38,7 +38,7 @@ public class ReviewFinder {
         );
 
         return new Page<>(
-                reviewEntitySlice.stream()
+                reviewEntitySlice.getContent().stream()
                         .map(Review::of)
                         .toList(),
                 reviewEntitySlice.hasNext()

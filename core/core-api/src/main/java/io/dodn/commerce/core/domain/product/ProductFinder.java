@@ -24,7 +24,7 @@ public class ProductFinder {
 
     public Page<Product> findByCategory(Long categoryId, OffsetLimit offsetLimit) {
         Slice<ProductCategoryEntity> productCategoryEntitySlice = productCategoryRepository.findByCategoryIdAndStatus(categoryId, EntityStatus.ACTIVE, offsetLimit.toPageable());
-        List<Long> productIds = productCategoryEntitySlice.stream()
+        List<Long> productIds = productCategoryEntitySlice.getContent().stream()
                 .map(ProductCategoryEntity::getProductId)
                 .toList();
 
