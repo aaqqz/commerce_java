@@ -15,7 +15,7 @@ public class QnAManager {
 
     private final QuestionRepository questionRepository;
 
-    public Long add(User user, Long productId, QuestionContent content) {
+    public Long createQuestion(User user, Long productId, QuestionContent content) {
         QuestionEntity saved = questionRepository.save(
                 QuestionEntity.register(
                         user.id(),
@@ -28,7 +28,7 @@ public class QnAManager {
     }
 
     @Transactional
-    public Long update(User user, Long questionId, QuestionContent content) {
+    public Long updateQuestion(User user, Long questionId, QuestionContent content) {
         QuestionEntity found = questionRepository.findByIdAndUserId(questionId, user.id())
                 .filter(QuestionEntity::isActive)
                 .orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND_DATA));
@@ -38,7 +38,7 @@ public class QnAManager {
     }
 
     @Transactional
-    public Long delete(User user, Long questionId) {
+    public Long deleteQuestion(User user, Long questionId) {
         QuestionEntity found = questionRepository.findByIdAndUserId(questionId, user.id())
                 .filter(QuestionEntity::isActive)
                 .orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND_DATA));

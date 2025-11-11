@@ -4,7 +4,7 @@ import io.dodn.commerce.core.domain.qna.QuestionContent;
 import io.dodn.commerce.core.support.error.CoreException;
 import io.dodn.commerce.core.support.error.ErrorType;
 
-public record AddQuestionRequest(
+public record CreateQuestionRequest(
         Long productId,
         String title,
         String content

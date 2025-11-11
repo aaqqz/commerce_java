@@ -15,8 +15,9 @@ public class ReviewManager {
 
     private final ReviewRepository reviewRepository;
 
-    public Long add(ReviewKey reviewKey, ReviewTarget target, ReviewContent content) {
-        ReviewEntity saved = reviewRepository.save(
+    // todo ok transactional 없이도 저장 되는지 확인 for gpt
+    public Long create(ReviewKey reviewKey, ReviewTarget target, ReviewContent content) {
+        ReviewEntity reviewEntity = reviewRepository.save(
                 new ReviewEntity(
                         reviewKey.user().id(),
                         reviewKey.key(),
@@ -27,15 +28,24 @@ public class ReviewManager {
                 )
         );
 
-        return saved.getId();
+        return reviewEntity.getId();
     }
 
     @Transactional
     public Long update(User user, Long reviewId, ReviewContent content) {
-        ReviewEntity found = reviewRepository.findByIdAndUserId(reviewId, user.id())
+        ReviewEntity reviewEntity = reviewRepository.findByIdAndUserId(reviewId, user.id())
                 .orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND_DATA));
-        found.updateContent(content.rate(), content.content());
+        reviewEntity.updateContent(content.rate(), content.content());
 
-        return found.getId();
+        return reviewEntity.getId();
+    }
+
+    @Transactional
+    public Long delete(User user, Long reviewId) {
+        ReviewEntity reviewEntity = reviewRepository.findByIdAndUserId(reviewId, user.id())
+                .orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND_DATA));
+        reviewEntity.delete();
+
+        return reviewEntity.getId();
     }
 }

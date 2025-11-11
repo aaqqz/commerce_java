@@ -1,6 +1,6 @@
 package io.dodn.commerce.core.api.controller.v1;
 
-import io.dodn.commerce.core.api.controller.v1.request.AddReviewRequest;
+import io.dodn.commerce.core.api.controller.v1.request.CreateReviewRequest;
 import io.dodn.commerce.core.api.controller.v1.request.UpdateReviewRequest;
 import io.dodn.commerce.core.api.controller.v1.response.ReviewResponse;
 import io.dodn.commerce.core.domain.review.Review;
@@ -22,7 +22,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("/v1/reviews")
-    public ApiResponse<PageResponse<ReviewResponse>> getReviews(
+    public ApiResponse<PageResponse<ReviewResponse>> findReviews(
             @RequestParam ReviewTargetType targetType,
             @RequestParam Long targetId,
             @RequestParam Integer offset,
@@ -33,17 +33,23 @@ public class ReviewController {
     }
 
     @PostMapping("/v1/reviews")
-    public ApiResponse<Object> addReview(
+    public ApiResponse<Object> createReview(
             User user,
-            @RequestBody AddReviewRequest request
+            @RequestBody CreateReviewRequest request
     ) {
-        reviewService.addReview(user, request.toTarget(), request.toContent());
+        reviewService.createReview(user, request.toTarget(), request.toContent());
         return ApiResponse.success();
     }
 
     @PutMapping("/v1/reviews/{reviewId}")
     public ApiResponse<Object> updateReview(User user, @PathVariable Long reviewId, @RequestBody UpdateReviewRequest request) {
         reviewService.updateReview(user, reviewId, request.toContent());
+        return ApiResponse.success();
+    }
+
+    @DeleteMapping("/v1/reviews/{reviewId}")
+    public ApiResponse<Object> deleteReview(User user, @PathVariable Long reviewId) {
+        reviewService.deleteReview(user, reviewId);
         return ApiResponse.success();
     }
 }

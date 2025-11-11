@@ -32,7 +32,26 @@ public class PointHandler {
 
 
         pointHistoryRepository.save(
-                new PointHistoryEntity(
+                PointHistoryEntity.of(
+                        user.id(),
+                        type,
+                        targetId,
+                        amount,
+                        pointBalanceEntity.getBalance()
+                )
+        );
+    }
+
+    @Transactional
+    public void deduct(User user, PointType type, Long targetId, BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) == 0) return;
+
+        PointBalanceEntity pointBalanceEntity = pointBalanceRepository.findByUserId(user.id())
+                .orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND_DATA));
+
+        pointBalanceEntity.apply(amount.negate());
+        pointHistoryRepository.save(
+                PointHistoryEntity.of(
                         user.id(),
                         type,
                         targetId,

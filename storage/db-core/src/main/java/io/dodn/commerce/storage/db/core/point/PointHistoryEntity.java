@@ -22,11 +22,15 @@ public class PointHistoryEntity extends BaseEntity {
     private BigDecimal amount;
     private BigDecimal balanceAfter;
 
-    public PointHistoryEntity(Long userId, PointType type, Long referenceId, BigDecimal amount, BigDecimal balanceAfter) {
-        this.userId = userId;
-        this.type = type;
-        this.referenceId = referenceId;
-        this.amount = amount;
-        this.balanceAfter = balanceAfter;
+    public static PointHistoryEntity of(Long userId, PointType type, Long referenceId, BigDecimal amount, BigDecimal balanceAfter) {
+        PointHistoryEntity entity = new PointHistoryEntity();
+
+        entity.userId = userId;
+        entity.type = type;
+        entity.referenceId = referenceId;
+        entity.amount = amount;
+        entity.balanceAfter = balanceAfter;
+
+        return entity;
     }
 }

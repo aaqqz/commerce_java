@@ -8,7 +8,7 @@ import io.dodn.commerce.core.support.error.ErrorType;
 
 import java.math.BigDecimal;
 
-public record AddReviewRequest(
+public record CreateReviewRequest(
         Long userId,
         ReviewTargetType targetType,
         Long targetId,

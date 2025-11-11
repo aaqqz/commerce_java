@@ -18,7 +18,9 @@ public class ReviewFinder {
     private final ReviewRepository reviewRepository;
 
     public RateSummary findRateSummary(ReviewTarget target) {
-        List<ReviewEntity> reviewEntities = reviewRepository.findByTargetTypeAndTargetId(target.type(), target.id()).stream()
+        List<ReviewEntity> reviewEntities = reviewRepository.findByTargetTypeAndTargetIdAndStatus(
+                        target.type(), target.id(), EntityStatus.ACTIVE
+                ).stream()
                 .filter(ReviewEntity::isActive)
                 .toList();
 

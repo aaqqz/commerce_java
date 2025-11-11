@@ -17,7 +17,7 @@ public class FavoriteController {
     private final FavoriteService favoriteService;
 
     @GetMapping("/v1/favorites")
-    public ApiResponse<PageResponse<FavoriteResponse>> getFavorites(
+    public ApiResponse<PageResponse<FavoriteResponse>> findFavorites (
             User user,
             @RequestParam Integer offset,
             @RequestParam Integer limit

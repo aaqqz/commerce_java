@@ -44,14 +44,6 @@ public class ReviewEntity extends BaseEntity {
         this.content = content;
     }
 
-    protected void editRate(BigDecimal rate) {
-        this.rate = rate;
-    }
-
-    protected void editContent(String content) {
-        this.content = content;
-    }
-
     public void updateContent(BigDecimal rate, String content) {
         this.rate = rate;
         this.content = content;

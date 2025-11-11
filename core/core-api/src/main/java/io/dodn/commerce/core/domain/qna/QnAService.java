@@ -17,16 +17,16 @@ public class QnAService {
         return qnaFinder.findQnAByProductId(productId, offsetLimit);
     }
 
-    public Long addQuestion(User user, Long productId, QuestionContent content) {
-        return qnaManager.add(user, productId, content);
+    public Long createQuestion(User user, Long productId, QuestionContent content) {
+        return qnaManager.createQuestion(user, productId, content);
     }
 
     public Long updateQuestion(User user, Long questionId, QuestionContent content) {
-        return qnaManager.update(user, questionId, content);
+        return qnaManager.updateQuestion(user, questionId, content);
     }
 
-    public Long removeQuestion(User user, Long questionId) {
-        return qnaManager.delete(user, questionId);
+    public Long deleteQuestion(User user, Long questionId) {
+        return qnaManager.deleteQuestion(user, questionId);
     }
 
     /**

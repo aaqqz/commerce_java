@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
 
-    List<ReviewEntity> findByTargetTypeAndTargetId(ReviewTargetType target, Long targetId);
+    List<ReviewEntity> findByTargetTypeAndTargetIdAndStatus(ReviewTargetType target, Long targetId, EntityStatus status);
 
     Slice<ReviewEntity> findByTargetTypeAndTargetIdAndStatus(ReviewTargetType target, Long targetId, EntityStatus status, Pageable pageable);
 

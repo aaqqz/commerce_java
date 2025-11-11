@@ -27,7 +27,7 @@ public class ReviewPolicyValidator {
     private final OrderItemRepository orderItemRepository;
     private final ReviewRepository reviewRepository;
 
-    public ReviewKey validateNew(User user, ReviewTarget target) {
+    public ReviewKey validateCreate(User user, ReviewTarget target) {
         if (target.type() == ReviewTargetType.PRODUCT) {
             List<OrderItemEntity> orderItemEntities = orderItemRepository.findRecentOrderItemsForProduct(
                     user.id(),

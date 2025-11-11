@@ -2,5 +2,9 @@ package io.dodn.commerce.storage.db.core.point;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface PointHistoryRepository extends JpaRepository<PointHistoryEntity, Long> {
+
+    List<PointHistoryEntity> findByUserId(Long userId);
 }

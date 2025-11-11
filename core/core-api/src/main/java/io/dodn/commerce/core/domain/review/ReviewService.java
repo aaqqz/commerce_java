@@ -26,9 +26,9 @@ public class ReviewService {
         return reviewFinder.find(target, offsetLimit);
     }
 
-    public Long addReview(User user, ReviewTarget target, ReviewContent content) {
-        ReviewKey reviewKey = reviewPolicyValidator.validateNew(user, target);
-        Long reviewId = reviewManager.add(reviewKey, target, content);
+    public Long createReview(User user, ReviewTarget target, ReviewContent content) {
+        ReviewKey reviewKey = reviewPolicyValidator.validateCreate(user, target);
+        Long reviewId = reviewManager.create(reviewKey, target, content);
 
         pointHandler.earn(user, PointType.REVIEW, reviewId, PointAmount.REVIEW);
         return reviewId;
@@ -37,5 +37,12 @@ public class ReviewService {
     public Long updateReview(User user, Long reviewId, ReviewContent content) {
         reviewPolicyValidator.validateUpdate(user, reviewId);
         return reviewManager.update(user, reviewId, content);
+    }
+
+    public Long deleteReview(User user, Long reviewId) {
+        Long deletedReviewId = reviewManager.delete(user, reviewId);
+
+        pointHandler.deduct(user, PointType.REVIEW, deletedReviewId, PointAmount.REVIEW);
+        return deletedReviewId;
     }
 }
