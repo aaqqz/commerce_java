@@ -33,7 +33,7 @@ public class QnAFinder {
         Map<Long, AnswerEntity> answerMap = answerEntities.stream()
                 .collect(Collectors.toMap(
                         AnswerEntity::getQuestionId,
-                        Function.identity()
+                        answer -> answer
                 ));
 
         List<QnA> qnas = questionEntitySlice.getContent().stream()

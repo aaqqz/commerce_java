@@ -50,7 +50,7 @@ public class ProductController {
         List<ProductSection> sections = productSectionService.findSections(productId);
         RateSummary rateSummary = reviewService.findRateSummary(ReviewTarget.of(ReviewTargetType.PRODUCT, productId));
         // NOTE: 별도 API 가 나을까?
-        List<Coupon> coupons = couponService.getCouponsForProducts(List.of(productId));
+        List<Coupon> coupons = couponService.findCouponsForProducts(List.of(productId));
 
         return ApiResponse.success(ProductDetailResponse.of(product, sections, rateSummary, coupons));
     }
