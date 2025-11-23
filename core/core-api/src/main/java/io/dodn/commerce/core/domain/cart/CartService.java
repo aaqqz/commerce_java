@@ -4,8 +4,6 @@ import io.dodn.commerce.core.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class CartService {
@@ -13,7 +11,7 @@ public class CartService {
     private final CartFinder cartFinder;
     private final CartManager cartManager;
 
-    public List<CartItem> getCart(User user) {
+    public Cart getCart(User user) {
         return cartFinder.getCart(user);
     }
 

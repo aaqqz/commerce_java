@@ -28,6 +28,17 @@ public class OrderEntity extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(50)")
     private OrderState state;
 
+    public static OrderEntity create(Long userId, String orderKey, String name, BigDecimal totalPrice, OrderState state) {
+        OrderEntity entity = new OrderEntity();
+        entity.userId = userId;
+        entity.orderKey = orderKey;
+        entity.name = name;
+        entity.totalPrice = totalPrice;
+        entity.state = state;
+
+        return entity;
+    }
+
     public void paid() {
         this.state = OrderState.PAID;
     }

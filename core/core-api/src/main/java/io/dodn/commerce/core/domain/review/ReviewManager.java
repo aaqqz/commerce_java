@@ -15,7 +15,6 @@ public class ReviewManager {
 
     private final ReviewRepository reviewRepository;
 
-    // todo ok transactional 없이도 저장 되는지 확인 for gpt
     public Long create(ReviewKey reviewKey, ReviewTarget target, ReviewContent content) {
         ReviewEntity reviewEntity = reviewRepository.save(
                 new ReviewEntity(

@@ -22,4 +22,18 @@ public class OrderItemEntity extends BaseEntity {
     Long quantity;
     BigDecimal unitPrice;
     BigDecimal totalPrice;
+
+    public static OrderItemEntity create(Long orderId, Long productId, String productName, String thumbnailUrl, String shortDescription, Long quantity, BigDecimal unitPrice, BigDecimal totalPrice) {
+        OrderItemEntity entity = new OrderItemEntity();
+        entity.orderId = orderId;
+        entity.productId = productId;
+        entity.productName = productName;
+        entity.thumbnailUrl = thumbnailUrl;
+        entity.shortDescription = shortDescription;
+        entity.quantity = quantity;
+        entity.unitPrice = unitPrice;
+        entity.totalPrice = totalPrice;
+
+        return entity;
+    }
 }

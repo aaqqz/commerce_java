@@ -28,4 +28,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItemEntity, Long
             @Param("fromDate") LocalDateTime fromDate,
             @Param("status") EntityStatus status
     );
+
+    List<OrderItemEntity> findByOrderId(Long orderId);
 }

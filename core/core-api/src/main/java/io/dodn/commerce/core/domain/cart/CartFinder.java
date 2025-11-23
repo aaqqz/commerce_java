@@ -21,7 +21,7 @@ public class CartFinder {
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
 
-    public List<CartItem> getCart(User user) {
+    public Cart getCart(User user) {
         List<CartItemEntity> cartItemEntities = cartItemRepository.findByUserIdAndStatus(user.id(), EntityStatus.ACTIVE);
 
         List<Long> productIds = cartItemEntities.stream()
@@ -34,7 +34,6 @@ public class CartFinder {
                         product -> product
                 ));
 
-        // todo
         List<CartItem> cartItems = cartItemEntities.stream()
                 .map(cartItemEntity -> new CartItem(
                         cartItemEntity.getId(),
@@ -42,6 +41,6 @@ public class CartFinder {
                         cartItemEntity.getQuantity()
                 ))
                 .toList();
-        return cartItems;
+        return new Cart(user.id(), cartItems);
     }
 }

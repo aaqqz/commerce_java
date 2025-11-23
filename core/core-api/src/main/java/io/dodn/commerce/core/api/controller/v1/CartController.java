@@ -3,14 +3,12 @@ package io.dodn.commerce.core.api.controller.v1;
 import io.dodn.commerce.core.api.controller.v1.request.AddCartItemRequest;
 import io.dodn.commerce.core.api.controller.v1.request.UpdateCartItemRequest;
 import io.dodn.commerce.core.api.controller.v1.response.CartResponse;
-import io.dodn.commerce.core.domain.cart.CartItem;
+import io.dodn.commerce.core.domain.cart.Cart;
 import io.dodn.commerce.core.domain.cart.CartService;
 import io.dodn.commerce.core.domain.user.User;
 import io.dodn.commerce.core.support.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +18,8 @@ public class CartController {
 
     @GetMapping("/v1/cart")
     public ApiResponse<CartResponse> getCart(User user) {
-        List<CartItem> cartItems = cartService.getCart(user);
-        return ApiResponse.success(CartResponse.of(cartItems));
+        Cart cart = cartService.getCart(user);
+        return ApiResponse.success(CartResponse.of(cart));
     }
 
     @PostMapping("/v1/cart/items")

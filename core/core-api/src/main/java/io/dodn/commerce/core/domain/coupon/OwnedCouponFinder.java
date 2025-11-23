@@ -9,10 +9,10 @@ import io.dodn.commerce.storage.db.core.coupon.OwnedCouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
@@ -52,6 +52,36 @@ public class OwnedCouponFinder {
                                         couponEntityMap.get(ownedCouponEntity.getCouponId()).getType(),
                                         couponEntityMap.get(ownedCouponEntity.getCouponId()).getDiscount(),
                                         couponEntityMap.get(ownedCouponEntity.getCouponId()).getExpiredAt()
+                                )
+                        ))
+                .toList();
+    }
+
+    public List<OwnedCoupon> getOwnedCouponsForCheckout(User user, List<Long> productIds) {
+        if (productIds.isEmpty()) return emptyList();
+
+        Map<Long, CouponEntity> applicableCouponMap = couponRepository.findApplicableCouponIds(productIds).stream()
+                .collect(Collectors.toMap(
+                        CouponEntity::getId,
+                        coupon -> coupon
+                ));
+        if (applicableCouponMap.isEmpty()) return emptyList();
+
+        var ownedCoupons = ownedCouponRepository.findOwnedCouponIds(user.id(), applicableCouponMap.keySet(), LocalDateTime.now());
+        if (ownedCoupons.isEmpty()) return emptyList();
+
+        return ownedCoupons.stream()
+                .map(ownedCouponEntity ->
+                        new OwnedCoupon(
+                                ownedCouponEntity.getId(),
+                                ownedCouponEntity.getUserId(),
+                                ownedCouponEntity.getState(),
+                                new Coupon(
+                                        applicableCouponMap.get(ownedCouponEntity.getCouponId()).getId(),
+                                        applicableCouponMap.get(ownedCouponEntity.getCouponId()).getName(),
+                                        applicableCouponMap.get(ownedCouponEntity.getCouponId()).getType(),
+                                        applicableCouponMap.get(ownedCouponEntity.getCouponId()).getDiscount(),
+                                        applicableCouponMap.get(ownedCouponEntity.getCouponId()).getExpiredAt()
                                 )
                         ))
                 .toList();

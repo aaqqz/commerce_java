@@ -1,5 +1,6 @@
 package io.dodn.commerce.core.api.controller.v1.response;
 
+import io.dodn.commerce.core.domain.cart.Cart;
 import io.dodn.commerce.core.domain.cart.CartItem;
 
 import java.math.BigDecimal;
@@ -9,10 +10,11 @@ public record CartResponse (
         List<CartItemResponse> items
 ) {
 
-    public static CartResponse of(List<CartItem> items) {
-        return new CartResponse(items.stream()
-                .map(CartItemResponse::of)
-                .toList()
+    public static CartResponse of(Cart cart) {
+        return new CartResponse(
+                cart.items().stream()
+                        .map(CartItemResponse::of)
+                        .toList()
         );
     }
 }
@@ -42,7 +44,6 @@ record  CartItemResponse(
                 cartItem.product().price().salesPrice(),
                 cartItem.product().price().discountedPrice(),
                 cartItem.quantity()
-
         );
     }
 }
