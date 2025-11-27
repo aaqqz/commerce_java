@@ -3,11 +3,10 @@ package io.dodn.commerce.core.domain.order;
 import io.dodn.commerce.storage.db.core.order.OrderEntity;
 import io.dodn.commerce.storage.db.core.order.TransactionHistoryEntity;
 import io.dodn.commerce.storage.db.core.order.TransactionHistoryRepository;
+import io.dodn.commerce.storage.db.core.payment.CancelEntity;
 import io.dodn.commerce.storage.db.core.payment.PaymentEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
 
 @Component
 @RequiredArgsConstructor
@@ -34,11 +33,23 @@ public class TransactionHistoryManager {
                 order.getUserId(),
                 order.getId(),
                 payment.getId(),
-                payment.getPaidAmount(),
                 code,
                 message
         );
 
         transactionHistoryRepository.save(transactionHistoryEntity);
+    }
+
+    public TransactionHistoryEntity createCancel(CancelEntity cancel, PaymentEntity payment) {
+        TransactionHistoryEntity transactionHistoryEntity = TransactionHistoryEntity.createCancel(
+                payment.getUserId(),
+                payment.getOrderId(),
+                payment.getId(),
+                payment.getExternalPaymentKey(),
+                payment.getPaidAmount(),
+                cancel.getCanceledAt()
+        );
+
+        return transactionHistoryRepository.save(transactionHistoryEntity);
     }
 }

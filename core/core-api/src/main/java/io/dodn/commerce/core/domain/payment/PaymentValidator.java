@@ -1,6 +1,7 @@
 package io.dodn.commerce.core.domain.payment;
 
 import io.dodn.commerce.core.domain.order.Order;
+import io.dodn.commerce.core.domain.user.User;
 import io.dodn.commerce.core.support.error.CoreException;
 import io.dodn.commerce.core.support.error.ErrorType;
 import io.dodn.commerce.storage.db.core.order.OrderEntity;
@@ -28,8 +29,12 @@ public class PaymentValidator {
 
     public void validatePaymentSuccess(OrderEntity order, PaymentEntity payment, BigDecimal amount) {
         if (!Objects.equals(payment.getUserId(), order.getUserId())) throw new CoreException(ErrorType.NOT_FOUND_DATA);
-        if (!payment.getState().isReady()) throw new CoreException(ErrorType.PAYMENT_INVALID_STATE);
+        if (payment.getState().isSuccess()) throw new CoreException(ErrorType.PAYMENT_INVALID_STATE);
         if (!Objects.equals(payment.getPaidAmount(), amount)) throw new CoreException(ErrorType.PAYMENT_AMOUNT_MISMATCH);
+    }
 
+    public void validatePaymentCancel(User user, OrderEntity order, PaymentEntity payment) {
+        if (!Objects.equals(order.getUserId(), user.id())) throw new CoreException(ErrorType.NOT_FOUND_DATA);
+        if (payment.getState().isReady()) throw new CoreException(ErrorType.PAYMENT_INVALID_STATE);
     }
 }

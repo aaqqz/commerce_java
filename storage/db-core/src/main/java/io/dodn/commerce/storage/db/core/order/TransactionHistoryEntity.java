@@ -42,7 +42,7 @@ public class TransactionHistoryEntity extends BaseEntity {
         return entity;
     }
 
-    public static TransactionHistoryEntity createFail(Long userId, Long orderId, Long paymentId, BigDecimal amount, String code, String message) {
+    public static TransactionHistoryEntity createFail(Long userId, Long orderId, Long paymentId, String code, String message) {
         TransactionHistoryEntity entity = new TransactionHistoryEntity();
         entity.userId = userId;
         entity.orderId = orderId;
@@ -55,4 +55,19 @@ public class TransactionHistoryEntity extends BaseEntity {
 
         return entity;
     }
+
+    public static TransactionHistoryEntity createCancel(Long userId, Long orderId, Long paymentId, String externalPaymentKey, BigDecimal amount, LocalDateTime occurredAt) {
+        TransactionHistoryEntity entity = new TransactionHistoryEntity();
+        entity.userId = userId;
+        entity.orderId = orderId;
+        entity.paymentId = paymentId;
+        entity.type = TransactionType.CANCEL;
+        entity.externalPaymentKey = externalPaymentKey;
+        entity.amount = amount;
+        entity.message = "취소 성공";
+        entity.occurredAt = occurredAt;
+
+        return entity;
+    }
+
 }
