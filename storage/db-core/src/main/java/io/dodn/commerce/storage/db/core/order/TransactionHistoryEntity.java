@@ -16,15 +16,43 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TransactionHistoryEntity extends BaseEntity {
 
-    Long userId;
-    Long orderId;
-    Long paymentId;
+    private Long userId;
+    private Long orderId;
+    private Long paymentId;
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(50)")
-    TransactionType type;
+    private TransactionType type;
 
-    String externalPaymentKey;
-    BigDecimal amount;
-    String message;
-    LocalDateTime occurredAt;
+    private String externalPaymentKey;
+    private BigDecimal amount;
+    private String message;
+    private LocalDateTime occurredAt;
+
+    public static TransactionHistoryEntity createSuccess(Long userId, Long orderId, Long paymentId, String externalPaymentKey, BigDecimal amount, String message, LocalDateTime occurredAt) {
+        TransactionHistoryEntity entity = new TransactionHistoryEntity();
+        entity.userId = userId;
+        entity.orderId = orderId;
+        entity.paymentId = paymentId;
+        entity.type = TransactionType.PAYMENT;
+        entity.externalPaymentKey = externalPaymentKey;
+        entity.amount = amount;
+        entity.message = message;
+        entity.occurredAt = occurredAt;
+
+        return entity;
+    }
+
+    public static TransactionHistoryEntity createFail(Long userId, Long orderId, Long paymentId, BigDecimal amount, String code, String message) {
+        TransactionHistoryEntity entity = new TransactionHistoryEntity();
+        entity.userId = userId;
+        entity.orderId = orderId;
+        entity.paymentId = paymentId;
+        entity.type = TransactionType.PAYMENT_FAIL;
+        entity.externalPaymentKey = "";
+        entity.amount = BigDecimal.valueOf(-1);
+        entity.message = "[" + code + "] " + message;
+        entity.occurredAt = LocalDateTime.now();
+
+        return entity;
+    }
 }

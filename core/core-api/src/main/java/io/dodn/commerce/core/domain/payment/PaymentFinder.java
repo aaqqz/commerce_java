@@ -15,6 +15,6 @@ public class PaymentFinder {
 
     public PaymentEntity getByOrderId(Long orderId) {
         return paymentRepository.findByOrderId(orderId)
-                .orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND_DATA));;
+                .orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND_DATA));
     }
 }

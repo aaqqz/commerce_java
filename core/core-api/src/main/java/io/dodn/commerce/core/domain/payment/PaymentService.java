@@ -3,6 +3,7 @@ package io.dodn.commerce.core.domain.payment;
 import io.dodn.commerce.core.domain.coupon.OwnedCouponFinder;
 import io.dodn.commerce.core.domain.order.Order;
 import io.dodn.commerce.core.domain.order.OrderFinder;
+import io.dodn.commerce.core.domain.order.TransactionHistoryManager;
 import io.dodn.commerce.core.domain.point.PointAmount;
 import io.dodn.commerce.core.domain.point.PointHandler;
 import io.dodn.commerce.core.domain.user.User;
@@ -26,6 +27,7 @@ public class PaymentService {
     private final OrderFinder orderFinder;
     private final OwnedCouponFinder ownedCouponFinder;
     private final PointHandler pointHandler;
+    private final TransactionHistoryManager transactionHistoryManager;
 
     @Transactional
     public Long createPayment(Order order, PaymentDiscount paymentDiscount) {
@@ -61,19 +63,14 @@ public class PaymentService {
         pointHandler.deduct(new User(payment.getUserId()), PointType.PAYMENT, payment.getId(), payment.getUsedPoint());
         pointHandler.earn(new User(payment.getUserId()), PointType.PAYMENT, payment.getId(), PointAmount.PAYMENT);
 
-        // todo
-//        transactionHistoryRepository.save(
-//                TransactionHistoryEntity(
-//                        type = TransactionType.PAYMENT,
-//                        userId = order.userId,
-//                        orderId = order.id,
-//                        paymentId = payment.id,
-//                        externalPaymentKey = externalPaymentKey,
-//                        amount = payment.paidAmount,
-//                        message = "결제 성공",
-//                        occurredAt = payment.paidAt!!,
-//            ),
-//        )
+        transactionHistoryManager.createSuccess(order, payment, externalPaymentKey);
         return payment.getId();
+    }
+
+    public void fail(String orderKey, String code, String message) {
+        var order = orderFinder.getByOrderKeyAndState(orderKey, OrderState.CREATED);
+        var payment = paymentFinder.getByOrderId(order.getId());
+
+        transactionHistoryManager.createFail(order, payment, code, message);
     }
 }

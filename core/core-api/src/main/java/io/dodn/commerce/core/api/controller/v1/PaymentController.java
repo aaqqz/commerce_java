@@ -48,18 +48,9 @@ public class PaymentController {
         return ApiResponse.success();
     }
 
-//    @PostMapping("/v1/payments/callback/fail")
-//    fun callbackForFail(
-//            @RequestParam orderId: String,
-//            @RequestParam code: String,
-//            @RequestParam message: String,
-//            ): ApiResponse<Any> {
-//        paymentService.fail(
-//                orderKey = orderId,
-//                code = code,
-//                message = message,
-//                )
-//        return ApiResponse.success()
-//    }
-
+    @PostMapping("/v1/payments/callback/fail")
+    public ApiResponse<Object> callbackForFail(@RequestParam String orderId, @RequestParam String code, @RequestParam String message) {
+        paymentService.fail(orderId, code, message);
+        return ApiResponse.success();
+    }
 }
