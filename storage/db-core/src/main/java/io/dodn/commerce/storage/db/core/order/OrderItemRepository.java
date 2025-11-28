@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface OrderItemRepository extends JpaRepository<OrderItemEntity, Long> {
 
@@ -30,4 +31,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItemEntity, Long
     );
 
     List<OrderItemEntity> findByOrderId(Long orderId);
+
+    List<OrderItemEntity> findByOrderIdIn(Set<Long> orderIds);
 }
