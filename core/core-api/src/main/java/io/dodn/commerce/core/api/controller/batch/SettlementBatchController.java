@@ -22,13 +22,35 @@ public class SettlementBatchController {
      */
     @PostMapping("/internal-batch/load-targets")
     public ApiResponse<Object> loadTargets(@RequestParam(required = false) LocalDate targetDate) {
-        if (targetDate == null) targetDate = LocalDate.now();
+        targetDate = targetDate == null ? LocalDate.now() : targetDate;
 
         settlementService.loadTargets(
                 targetDate,
                 targetDate.minusDays(1).atStartOfDay(),
                 targetDate.atStartOfDay().minusNanos(1)
         );
+        return ApiResponse.success();
+    }
+
+    /**
+     * NOTE: 정산 계산 배치
+     * - 오전 4시 실행
+     */
+    @PostMapping("/internal-batch/calculate")
+    public ApiResponse<Object> calculate(@RequestParam(required = false) LocalDate targetDate) {
+        targetDate = targetDate == null ? LocalDate.now() : targetDate;
+
+        settlementService.calculate(targetDate);
+        return ApiResponse.success();
+    }
+
+    /**
+     * NOTE: 정산 입금 배치
+     * - 오전 9시 실행
+     */
+    @PostMapping("/internal-batch/transfer")
+    public ApiResponse<Object> transfer() {
+        settlementService.transfer();
         return ApiResponse.success();
     }
 }
